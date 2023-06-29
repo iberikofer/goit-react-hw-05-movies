@@ -14,11 +14,6 @@ export const Movies = () => {
   };
 
   useEffect(() => {
-    setSearchParams({ query: '' });
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
-
-  useEffect(() => {
     const fetchQueryMovies = async () => {
       try {
         const response = await getMovies(queryText);
@@ -29,6 +24,12 @@ export const Movies = () => {
       }
     };
     fetchQueryMovies();
+  }, [searchParams]);
+
+  useEffect(() => {
+    if (searchParams.get('query') !== queryText) {
+      setQueryText(searchParams.get('query') || '');
+    }
   }, [searchParams]);
 
   const moviesMarkup =
