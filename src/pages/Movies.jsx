@@ -15,6 +15,7 @@ export const Movies = () => {
 
   useEffect(() => {
     setSearchParams({ query: '' });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   useEffect(() => {
@@ -22,7 +23,6 @@ export const Movies = () => {
       try {
         const response = await getMovies(queryText);
         const data = await response.json();
-        console.log(data.results);
         setMovies(data.results);
       } catch (error) {
         console.log(error);
@@ -36,7 +36,9 @@ export const Movies = () => {
     movies.map(movie => {
       return (
         <li key={movie.id}>
-          <Link to={`/movies/${movie.id}`} state={{ from: location }}>
+          <Link
+            to={{ pathname: `/movies/${movie.id}`, state: { from: location } }}
+          >
             {movie.title}
           </Link>
         </li>

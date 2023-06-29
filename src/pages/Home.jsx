@@ -1,7 +1,6 @@
 import { getTrendingMovies } from 'fetch';
 import { useState, useEffect } from 'react';
 import { Link, useLocation } from 'react-router-dom';
-import MovieDetails from '../components/MovieDetals/MovieDetails';
 
 export const Home = () => {
   const [moviesArr, setMoviesArr] = useState([]);
