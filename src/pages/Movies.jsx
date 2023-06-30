@@ -5,7 +5,7 @@ import { getMovies } from 'fetch';
 export const Movies = () => {
   const [movies, setMovies] = useState([]);
   const [queryText, setQueryText] = useState('');
-  const [searchParams, setSearchParams] = useSearchParams();
+  const setSearchParams = useSearchParams()[1];
   const location = useLocation();
 
   useEffect(() => {
