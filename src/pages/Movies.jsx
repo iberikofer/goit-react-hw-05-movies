@@ -8,12 +8,14 @@ export const Movies = () => {
   const [searchParams, setSearchParams] = useSearchParams();
   const location = useLocation();
 
+  useEffect(() => {
+    setSearchParams({ query: '' });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
   const handleSubmit = e => {
     e.preventDefault();
     setSearchParams({ query: queryText });
-  };
-
-  useEffect(() => {
     const fetchQueryMovies = async () => {
       try {
         const response = await getMovies(queryText);
@@ -24,22 +26,14 @@ export const Movies = () => {
       }
     };
     fetchQueryMovies();
-  }, [searchParams]);
-
-  useEffect(() => {
-    if (searchParams.get('query') !== queryText) {
-      setQueryText(searchParams.get('query') || '');
-    }
-  }, [searchParams]);
+  };
 
   const moviesMarkup =
     movies.length > 0 &&
     movies.map(movie => {
       return (
         <li key={movie.id}>
-          <Link
-            to={{ pathname: `/movies/${movie.id}`, state: { from: location } }}
-          >
+          <Link to={`/movies/${movie.id}`} state={{ from: location }}>
             {movie.title}
           </Link>
         </li>

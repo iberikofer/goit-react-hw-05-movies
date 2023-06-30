@@ -15,8 +15,7 @@ export const MovieDetails = () => {
         .then(response => setSelectedMovie(response));
     };
     fetchDedailts();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [movieId]);
 
   return (
     <div>

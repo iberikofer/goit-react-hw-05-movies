@@ -7,15 +7,17 @@ export const Reviews = () => {
   const [imageReviews, setImageReviews] = useState({});
 
   useEffect(() => {
-    try {
-      getMovieReviews(movieId)
-        .then(response => response.json())
-        .then(response => setImageReviews(response));
-    } catch (error) {
-      console.log(error);
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+    const fetchMovieReviews = async () => {
+      try {
+        await getMovieReviews(movieId)
+          .then(response => response.json())
+          .then(response => setImageReviews(response));
+      } catch (error) {
+        console.log(error);
+      }
+    };
+    fetchMovieReviews();
+  }, [movieId]);
 
   const creditsMarkup =
     imageReviews.results && imageReviews.results.length > 0

@@ -7,14 +7,17 @@ export const Cast = () => {
   const [imageCredits, setImageCredits] = useState({});
 
   useEffect(() => {
-    try {
-      getMovieCredits(movieId)
-        .then(response => response.json())
-        .then(response => setImageCredits(response));
-    } catch (error) {
-      console.log(error);
-    } // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+    const fetchMovieCredits = async () => {
+      try {
+        await getMovieCredits(movieId)
+          .then(response => response.json())
+          .then(response => setImageCredits(response));
+      } catch (error) {
+        console.log(error);
+      }
+    };
+    fetchMovieCredits();
+  }, [movieId]);
 
   const creditsMarkup =
     imageCredits.cast &&
