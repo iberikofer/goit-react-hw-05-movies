@@ -8,11 +8,6 @@ export const Movies = () => {
   const setSearchParams = useSearchParams()[1];
   const location = useLocation();
 
-  useEffect(() => {
-    setSearchParams({ query: '' });
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
-
   const handleSubmit = e => {
     e.preventDefault();
     setSearchParams({ query: queryText });
