@@ -1,27 +1,35 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useSearchParams, Link, useLocation } from 'react-router-dom';
 import { getMovies } from 'fetch';
 
 export const Movies = () => {
   const [movies, setMovies] = useState([]);
-  const [queryText, setQueryText] = useState('');
-  const setSearchParams = useSearchParams()[1];
+  const [searchParams, setSearchParams] = useSearchParams();
   const location = useLocation();
+
+  const fetchQueryMovies = async query => {
+    try {
+      const response = await getMovies(query);
+      const data = await response.json();
+      setMovies(data.results);
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   const handleSubmit = e => {
     e.preventDefault();
-    setSearchParams({ query: queryText });
-    const fetchQueryMovies = async () => {
-      try {
-        const response = await getMovies(queryText);
-        const data = await response.json();
-        setMovies(data.results);
-      } catch (error) {
-        console.log(error);
-      }
-    };
-    fetchQueryMovies();
+    fetchQueryMovies(searchParams.get('query'));
   };
+
+  useEffect(() => {
+    const query = searchParams.get('query');
+    if (query) {
+      fetchQueryMovies(query);
+    } else {
+      setMovies([]);
+    } // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   const moviesMarkup =
     movies.length > 0 &&
@@ -40,8 +48,8 @@ export const Movies = () => {
       <form onSubmit={handleSubmit}>
         <input
           placeholder="Type a movie name here..."
-          value={queryText}
-          onChange={e => setQueryText(e.target.value)}
+          value={searchParams.get('query') || ''}
+          onChange={e => setSearchParams({ query: e.target.value })}
         ></input>
         <button type="submit">Search</button>
       </form>
