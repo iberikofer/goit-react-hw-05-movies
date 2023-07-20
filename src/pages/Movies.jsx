@@ -6,6 +6,7 @@ export const Movies = () => {
   const [movies, setMovies] = useState([]);
   const [searchParams, setSearchParams] = useSearchParams();
   const location = useLocation();
+  const queryText = searchParams.get('query');
 
   const fetchQueryMovies = async query => {
     try {
@@ -19,13 +20,12 @@ export const Movies = () => {
 
   const handleSubmit = e => {
     e.preventDefault();
-    fetchQueryMovies(searchParams.get('query'));
+    fetchQueryMovies(queryText);
   };
 
   useEffect(() => {
-    const query = searchParams.get('query');
-    if (query) {
-      fetchQueryMovies(query);
+    if (queryText) {
+      fetchQueryMovies(queryText);
     } else {
       setMovies([]);
     } // eslint-disable-next-line react-hooks/exhaustive-deps
